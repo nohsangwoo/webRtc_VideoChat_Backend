@@ -4,14 +4,17 @@ const http = require('http').createServer(app);
 require('dotenv').config();
 console.log('CLIENT_URL:', process.env.CLIENT_URL);
 console.log('NODE_ENV:', process.env.NODE_ENV);
+const setUrl =
+  process.env.NODE_ENV === 'dev'
+    ? 'http://localhost:3000'
+    : process.env.CLIENT_URL;
+
+console.log(setUrl);
 
 const io = require('socket.io')(http, {
   // cors설정도 해줌
   cors: {
-    origin:
-      process.env.NODE_ENV === 'dev'
-        ? 'http://localhost:3000'
-        : 'process.env.CLIENT_URL',
+    origin: setUrl,
     methods: ['GET', 'POST'],
   },
 });
